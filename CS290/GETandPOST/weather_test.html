@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <script>
+        var apiKey = "d41079176bed81eee77dc6a4b5a4ce23";
+
+        document.addEventListener('DOMContentLoaded', bindButtons);
+
+        function bindButtons() {
+            document.getElementById('zipSubmit').addEventListener('click', function(event) {
+                var req = new XMLHttpRequest();
+                var zip = document.getElementById("zipcode").value;
+
+                req.open('GET', "http://api.openweathermap.org/data/2.5/weather?zip=" + zip + ",us&appid=" + apiKey, false);
+                req.send(null);
+
+                var response = JSON.parse(req.responseText);
+
+                document.getElementById('header').textContent = "Weather in your city: " + response.name;
+
+                function kToF(k) {
+                    f = (k * (9/5) - 459.67);
+                    return f.toFixed(1);
+                }
+
+                document.getElementById('currentTemp').textContent = "Current Temperature: " + kToF(response.main.temp) + " F";
+                document.getElementById('currentHumidity').textContent = "Current Humidity: " + response.main.humidity + "%";
+
+                event.preventDefault();
+            })
+        }
+    </script>
+</head>
+<body>
+    <form>
+        <fieldset>
+            <legend>Get Weather by Zipcode</legend>
+            <label for="zipcode"></label>
+            <input type="text" name="zipcode" id="zipcode">
+            <input type="submit" value="Submit" id="zipSubmit">
+        </fieldset>
+    </form>
+
+    <div>
+        <h2><span id="header"></span></h2>
+        <ul style="list-style: none;">
+            <li><span id="currentTemp"></span></li>
+            <li><span id="currentHumidity"></span></li>
+        </ul>
+    </div>
+</body>
+</html>

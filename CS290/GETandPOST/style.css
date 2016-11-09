@@ -1,0 +1,45 @@
+/* Darlene Zouras, CS 290 Fall 2016, AJAX Interactions */
+
+html, body {
+    font-family: sans-serif;
+    height: 100%;
+    padding: 50px;
+}
+
+div.header {
+    background-color: #547e9e;
+    color: #eff1f3;
+    padding: 30px;
+}
+
+div.wrapper {
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    height: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 750px;
+}
+
+div.weather {
+    text-align: left;
+    background-color: #f5e67b;
+    color: #8f7d00;
+    padding: 25px;
+    width: 40%;
+    display: inline-block;
+    overflow: auto;
+    min-height: 100%;
+}
+
+div.postForm {
+    text-align: left;
+    background-color: #e57389;
+    color: #85001a;
+    padding: 25px;
+    width: 40%;
+    display: inline-block;
+    overflow: auto;
+    min-height: 100%;
+}

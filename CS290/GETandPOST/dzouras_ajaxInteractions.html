@@ -1,0 +1,46 @@
+<!--Darlene Zouras, CS 290 Fall 2016, AJAX Interactions-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script src="weatherScript.js"></script>
+    <script src="postScript.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h2>Darlene Zouras</h2>
+        <p>CS 290 Fall 2016<br>
+        Ajax Interactions</p>
+    </div>
+    <div class="wrapper">
+        <div class="weather col-sm-6">
+            <form>
+                <legend>Get Weather by Zipcode</legend>
+                <label for="zipcode"></label>
+                <input type="text" name="zipcode" id="zipcode">
+                <input type="submit" value="Submit" id="zipSubmit">
+            </form>
+
+            <h2><span id="header"></span></h2>
+            <ul style="list-style: none;">
+                <li><span id="currentTemp"></span></li>
+                <li><span id="currentHumidity"></span></li>
+            </ul>
+        </div>
+        <div class="postForm col-sm-6">
+            <form>
+                <legend>Submit Form Via Post</legend>
+                <label for="textEntry">Enter some text: </label>
+                <input type="text" name="textEntry" id="textEntry">
+                <br>
+                <input type="submit" value="Submit" id="postSubmit">
+            </form>
+
+            <h2><span id="postHeader"></span></h2>
+            <span id="returnText"></span>
+        </div>
+    </div>
+</body>
+</html>

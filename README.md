@@ -11,5 +11,10 @@ The Final Project folder is an especially complicated program that includes dyna
 # CS 271
 A collection of MASM projects for the Computer Architecture and Assembly Language class.
 
-# In Progress: CS 290 and CS 340
-The projects for CS 290 Web Development and CS 340 Databases will be coming soon!
+# In Progress:
+The projects for CS 290 Web Development and CS 340 Databases are being uploaded as they are completed.
+# CS 290
+This web development class teaches skills in HTML, CSS, and Javascript. NodeJS is used to build web backends.
+
+#CS 340
+Databases
