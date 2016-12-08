@@ -1,0 +1,45 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <title>Etsy API How-To - Building Your App</title>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="top">
+      <h1>Building an Application</h1>
+    </div>
+    <div id="nav" class="nav"></div>
+    <div class="content">
+      <h2>Architecture of an Application using the Etsy API</h2>
+      <p>First, let's create the files that we need for this. Right now, we only need an html page that will link to a file where our Javascript will be writen:</p>
+        <ul style="list-style-type: none">
+          <li>shop.html</li>
+          <li>shop.js</li>
+        </ul>
+      <p>This is of course pretty minimal- in order to make your page more sophisticated you would of course write a CSS stylesheet or use something like Bootstrap, but for now we will focus on the API.</p>
+      <br />
+
+      <h2>Building the HTML Page</h2>
+      <p>I find the Etsy API is best accessible through jQuery, in which case jQuery will need to be loaded into the &lt;head&gt; tag of the html page. The link that I found used in examples on the Etsy documentation page were failing for being outdated, so loading from Google will work fine for us:</p>
+      <pre><xmp><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script></xmp></pre>
+      <p>In particular, jQuery will be used to perform the Ajax requests on the API. For further documentation on this, <a href="http://api.jquery.com/jquery.ajax/" target="_blank">look here</a>!</p>
+
+      <p>Besides that, the HTML page must link to the shop.js file in the &lt;body&gt; tag, and it also must contain a div or nav tag with a unique id (let's call it <i>shop</i>) which the Javascript can manipulate.</p>
+      <pre><xmp><html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<body>
+  <div id="shop"></div>
+  <sript type="text/javascript" src="test.js"></script>
+</body>
+</html></xmp></pre>
+
+      <br />
+      <a href="generateListings.html">Let's fetch our Shop Listings!</a>
+    </div> <!-- end content -->
+  </div> <!-- end wrapper -->
+<script src="navigate.js"></script>
+</body>
+</html>

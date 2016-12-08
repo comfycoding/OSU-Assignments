@@ -1,0 +1,88 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <title>Etsy API How-To - Generate Shop Listings</title>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="top">
+      <h1>Generating the Listings of your Etsy Shop</h1>
+    </div>
+    <div id="nav" class="nav"></div>
+    <div class="content">
+      <p>This is finally where the action happens- we're going to use jQuery and Ajax to connect with the Etsy API, receive some information back from it, and then use it to populate the page with the listings from our shop.</p>
+
+      <p>The first two lines of the shop.js page will hold some important variables that you will need to set for yourself:</p>
+  <pre><xmp>apiKey = "YOUR-API-KEY";
+shopName = "YOUR-SHOP-NAME";
+baseURL = "https://openapi.etsy.com/v2/";</xmp></pre></p>
+      <p>In the case of this example, I will be using the keystring yytys7tcm73htzzb4f7npm70. You should go ahead and use your own! We will not be using the shared secret key for this example.</p>
+      <p>In the case of the shop name, I don't currently have an active shop on Etsy so in further examples I'll be plugging one of my favorite shops in its place.</p>
+      <p>The second line saves the part of the Etsy API that is used for every API call we might want to make. It should be able to add the baseURL variable to any URL string than writing it out each time!</p>
+
+      <p>Since we are keeping things simple there will only be a single function that we will need to write in order to display the listings on our page- let's call it <i>displayListings</i>. Since we are using jQuery its skeleton will look like this: </p>
+      <pre><xmp>function displayListings() {
+
+  // stuff happens here!
+
+}</xmp></pre>
+      <p>And it will be called by a function that is called when the DOM has fully loaded- it is the last function of the shop.js file: </p>
+      <pre><xmp>$(document).ready(function () {
+
+  displayListings();
+
+});</xmp></pre>
+
+    <p>Finally, the guts of the displayListings function can be written. Within it is a loop that is used to cycle through the elements of the response from the API. For each an the main image for an active listed item is displayed, the price of the item is displayed, and the image is written to link back to the item listing on Etsy.com. It's not very long, but it is quite dense- the function in the end will look like this: </p>
+    <pre><xmp>$.ajax({
+  url: baseURL + shopName + "/listings/active.js?api_key=" + apiKey +
+  "&includes=MainImage&fields=url,price,title,description&limit=10",
+  dataType: "jsonp";
+
+  success: function (resp) {
+    for (i = 0; i < resp.results.length; i++) {
+      $('#shop').append('<div style="display: inline-block" class="list">
+      <a href="' + resp.results[i].url + '" target="_blank">' +
+      '<img alt="' + resp.results[i].description + '" src="' +
+      resp.results[i].MainImage.url_170x135 +
+      '" title="' + resp.results[i].title + '"></img></a><center>$' +
+      resp.results[i].price + '</div>');
+    }
+  }
+});</xmp></pre>
+
+      <p>Let's look at each of these step by step:</p>
+      <ul style="list-style-type: none">
+        <li><p class="code">$.ajax({ });</p>
+          <p>As an Ajax call, this code has to surround the entire thing. This is the syntax used when you're working with jQuery.</p></li>
+        <li><p class="code">url:</p>
+          <p>The URL that we use in this line has a few different pieces. The baseURL is one that all Etsy API calls will use, followed by the shop name in this case- although in some cases it could be a user name in order to pull information from a profile. After the shop name we include which attribute of the shop we need information about- in this case, it's the shop's active listings. After that we include the API key.
+          <p>After the key there are is a string after the key that lists what we are requesting from the shop: the listing Image, the url where it can be found, the price, the title, and a description. I also set a limit of 10 in order to lighten the load and with certain permissions it is the maximum number of requests that can be made to the API per second with that key.</p></li>
+        <li><p class="code">dataType:</p>
+          <p>We're using jsonp.</p></li>
+        <li><p class="code">success: function (resp) { }</p>
+          <p>This function is called when we can successfully call the API and receive a response back, <i>resp</i>.</p></li>
+        <li><p class="code">for (i = 0; i < resp.results.length; i++) { }</p>
+          <p>This is a simple for loop that will loop through each of the active listings that we receive through <i>resp</i>, which is an array. The following few lines of code will apply to each element in the array.</p></li>
+        <li><p class="code">$('#shop').append( );</p>
+          <p>The content inside of the parentheses after <i>append</i> are what is added into the element in the page with the id <i>#shop</i>, which is the id of a div that we created in the shop.html page. The elements that are appended are a div that contains the image, an <i>a</i> tag that links to the listing, and the image. Relevant information is gathered from <i>resp</i> by referring to <i>resp.results[i].x</i> where <i>x</i> is replaced for the information received that we are using in each instance.</p></li>
+        <li><p class="code">resp.results[i].url</p>
+          <p>Contains the URL where the listing <i>i</i> is found.</p></li>
+        <li><p class="code">resp.results[i].description</p>
+          <p>The description is used in the alt tag of the image. This text could have been displayed beneath or besides the image as well, but for now it stays in teh alt field.</p></li>
+        <li><p class="code">resp.results[i].MainImage.url_170x135</p>
+          <p>This selects the url location of the image as well as its size (a list of available sizes are listed in the Etsy API documentation and range from the full resolution to a thumbnail size). This url is used to create the image.</p></li>
+        <li><p class="code">resp.results[i].title</p>
+          <p>For this grid, I'll be placing the title of the images in the title of the image tag, so that it is displayed on mouseover.</p>
+        <li><p class="code">resp.results[i].price</p>
+          <p>Returns the price of listing <i>i</i>.
+      </ul>
+
+      <br />
+      <p>With all of this code written into the Javascript file, this page should generate the 10 most recently published listings of an Etsy page.</p>
+      <a href="finalProduct.html">Let's take a look at the result!</a>
+    </div>
+  </div>
+  <script src="navigate.js"></script>
+</body>
