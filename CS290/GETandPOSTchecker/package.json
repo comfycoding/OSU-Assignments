@@ -1,0 +1,17 @@
+{
+  "name": "get-and-post-checker",
+  "version": "1.0.0",
+  "description": "GET and POST checker - Week 7 CS 290",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Darlene Zouras",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.13.2",
+    "express-handlebars": "^2.0.1",
+    "express-session": "^1.11.3"
+  }
+}

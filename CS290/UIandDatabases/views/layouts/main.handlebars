@@ -1,0 +1,217 @@
+<!doctype html>
+<html>
+<head>
+	<style>
+		body {
+			font-family: sans-serif;;
+			background-color: #6EB49D;
+		}
+		div.wrapper {
+			margin: 25px;
+			background-color: white;
+		}
+		div.forms {
+			width: 75%;
+			padding: 10px;
+			text-align: center;
+			margin: auto;
+			background-color: white;
+		}
+		div.db_insert {
+			float: left;
+			width: 50%;
+			padding-bottom: 10px;
+			text-align: left;
+		}
+		div.db_update {
+			float: right;
+			width: 50%;
+			padding-bottom: 20px;
+			text-align: left;
+		}
+		div.db_table {
+			text-align: center;
+			margin: auto;
+			width: 75%;
+		}
+		table {
+			width: 100%;
+			padding-bottom: 25px;
+		}
+		th {
+			background-color: grey;
+			padding: 5px;
+			border-top-right-radius: 10px;
+			border-top-left-radius: 10px;
+		}
+		td {
+			border-bottom: 1px solid grey;
+			padding: 3px;
+		}
+		td.del, td.update {
+			border: 0px;
+			padding: 0px;
+		}
+		button.delRow {
+			color: red;
+		}
+		button.updRow {
+			color: orange;
+		}
+	</style>
+	<title>Node and MySQL</title>
+</head>
+<body>
+
+	<div class="wrapper">
+		{{{body}}}
+	</div>
+
+	<script type="text/javascript">
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+
+	var yyyy = today.getFullYear();
+	if(dd<10){
+			dd='0'+dd;
+	}
+	if(mm<10){
+			mm='0'+mm
+	}
+	var today = yyyy+'-'+mm+'-'+dd;
+	//var today = mm+'/'+dd+'/'+yyyy;
+	document.getElementById("date").value = today;
+	// document.getElementById("upDate").value = today;
+
+	document.addEventListener('DOMContentLoaded', bindButtons);
+
+	function bindButtons() {
+
+		// Handles the insert form
+	  document.getElementById('submitWorkout').addEventListener('click', function(event){
+	    var req = new XMLHttpRequest();
+
+			// confirm that the name is not null!!
+	    if ((document.getElementById('name').value == '') || (document.getElementById('name').value == null)) {
+	      alert('The name of the workout cannot be left blank!');
+				event.preventDefault();
+	    }
+		else {
+		    var payload = {name:null, reps:null, weight:null, lbs:null, date:null};
+		    payload.name = document.getElementById('name').value;
+		    payload.reps = document.getElementById('reps').value;
+		    payload.weight = document.getElementById('weight').value;
+				if (document.getElementById('lbs').checked) {
+					payload.lbs = true;
+				}
+				else {
+					payload.lbs = false;
+				}
+				payload.date = document.getElementById('date').value;
+
+		    req.open('POST', 'insert', true);
+		    req.setRequestHeader('Content-type', 'application/json');
+
+		    req.send(JSON.stringify(payload));
+		}
+	  });
+
+	}
+
+	function deleteRow(rowID) {
+		var req = new XMLHttpRequest();
+		var delID = rowID;
+
+		var payload = {id:null};
+		payload.id = delID;
+
+		req.open('POST', 'delete', true);
+		req.setRequestHeader('Content-type', 'application/json');
+
+		req.send(JSON.stringify(payload));
+
+		// REMOVES THE ROW FROM THE TABLE
+		var table = document.getElementById("db_workouts");
+		var count = table.rows.length;
+
+		findRow: {
+			for (var i = 0; i < count; i++) {
+				var row = table.rows[i];
+				if (row.id == delID) {
+					table.deleteRow(i);
+					break findRow;
+				}
+			}
+		}
+	}
+
+	function updateRow(rowID) {
+		var req = new XMLHttpRequest();
+		var upID = rowID;
+
+		var payload = {id:null, name:null, reps:null, lbs:null, date:null};
+		payload.id = upID;
+		payload.name = document.getElementById('upName').value;
+		  payload.reps = document.getElementById('upReps').value;
+		  payload.weight = document.getElementById('upWeight').value;
+		  if (document.getElementById('upLbs').checked) {
+			  payload.lbs = true;
+		  }
+		  else {
+			  payload.lbs = false;
+		  }
+		  payload.date = document.getElementById('upDate').value;
+
+		  req.open('POST', 'safe-update', true);
+		  req.setRequestHeader('Content-type', 'application/json');
+
+		  req.send(JSON.stringify(payload));
+
+		  // UPDATE VALUES IN THE TABLE
+		  var table = document.getElementById("db_workouts");
+		var count = table.rows.length;
+
+		findRow: {
+			for (var i = 0; i < count; i++) {
+				var row = table.rows[i];
+				if (row.id == upID) {
+					break findRow;
+				}
+			}
+		}
+
+		if (row.cells[0].textContent != payload.name && payload.name != '') {
+			row.cells[0].textContent = payload.name;
+		}
+
+		if (row.cells[1].textContent != payload.reps && payload.reps != '') {
+			row.cells[1].textContent = payload.reps;
+		}
+
+		// working around the units makes this next part complicated:
+		if (payload.lbs == true) {
+			if (row.cells[2].textContent != (payload.weight + " lbs") && payload.weight != '') {
+				row.cells[2].textContent = payload.weight + " lbs";
+			}
+			else {
+				row.cells[2].textContent = parseInt(row.cells[2].textContent) + " lbs";
+			}
+		}
+		else if (payload.lbs == false) {
+			if (row.cells[2].textContent != (payload.weight + " kgs") && payload.weight != '') {
+				row.cells[2].textContent = payload.weight + " kgs";
+			}
+			else {
+				row.cells[2].textContent = parseInt(row.cells[2].textContent) + " kgs";
+			}
+		}
+
+		if (row.cells[3].textContent != payload.date && payload.date != '') {
+			row.cells[3].textContent = payload.date;
+		}
+	}
+
+	</script>
+</body>
+</html>

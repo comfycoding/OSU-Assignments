@@ -1,0 +1,74 @@
+<div class="forms">
+  <!-- insert form -->
+  <div class="db_insert">
+    <form id="addWorkout">
+      <h2>Add to Workouts:</h2>
+      <label>Name of workout:
+        <input type="text" name="name" id="name"><br />
+      </label>
+      <label>Number of reps:
+        <input type="number" name="reps" id="reps"><br />
+      </label>
+      <label>Weight:
+        <input type="number" name="weight" id="weight"><br />
+        <input type="radio" name="units" id="lbs" checked>lbs</input><br />
+        <input type="radio" name="units" id="kgs">kgs</input><br />
+      </label>
+      <label>Date:
+        <input type="date" id="date" name="date"><br />
+      </label>
+      <input type="submit" value="Submit" id="submitWorkout">
+    </form>
+  </div>
+
+  <!-- UPDATE FORM -->
+  <div class="db_update">
+    <h2>Update a Workout:</h2>
+    <form id="editWorkout">
+    <label>Update name of workout:
+      <input type="text" name="upName" id="upName"><br />
+    </label>
+    <label>Update number of reps:
+      <input type="number" name="upReps" id="upReps"><br />
+    </label>
+    <label>Update weight:
+      <input type="number" name="upWeight" id="upWeight"><br />
+      <input type="radio" name="upUnits" id="upLbs" checked>lbs</input><br />
+      <input type="radio" name="upUnits" id="upKgs">kgs</input></br />
+    </label>
+    <label>Update date:
+      <input type="date" id="upDate" name="upDate"><br />
+    </form>
+    <p>Enter updated information into this form and select the workout below that you would like to update. If a field is left blank it will retain the old value!</p>
+  </div>
+</div>
+
+<div class="db_table">
+  <table id="db_workouts">
+    <tr id="head">
+      <th class="db_name">Name</th>
+      <th class="db_reps">Reps</th>
+      <th class="db_weight">Weight</th>
+      <th class="db_date">Date</th>
+    </tr>
+    {{#each results}}
+    <tr id="{{this.id}}">
+      <td class="db_name">{{this.name}}</td>
+      <td class="db_reps">{{this.reps}}</td>
+      <td class="db_weight">{{this.weight}}
+        {{#if this.lbs}}
+          lbs
+        {{else}}
+          kgs
+        {{/if}}
+      <td class="db_date">{{this.date}}</td>
+      <td class="del">
+        <button class="delRow" id="deleteWorkout" name="rowID" value="{{this.id}}" onclick="deleteRow({{this.id}})">Delete Workout</button>
+      </td>
+      <td class="update">
+          <button class="updRow" id="updateWorkout" value="{{this.id}}" onclick="updateRow({{this.id}})">Update Workout</button>
+      </td>
+    </tr>
+    {{/each}}
+  </table>
+</div>
