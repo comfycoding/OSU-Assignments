@@ -1,5 +1,5 @@
 var baseURL = "https://openapi.etsy.com/v2/shops/";
-var apiKey = "yytys7tcm73htzzb4f7npm70";
+var apiKey = "";
 var shopName = "emandsprout";
 
 function displayListings() {
